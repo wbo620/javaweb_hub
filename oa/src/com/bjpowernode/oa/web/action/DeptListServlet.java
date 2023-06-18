@@ -87,7 +87,7 @@ public class DeptListServlet extends HttpServlet {
                 out.printf("            <td>" + dname + "</td>");
                 out.printf("            <td>");
                 out.printf("                <a href='javascript:void(0)' onclick='del(" + deptno + ")'>删除</a>");
-                out.printf("                <a href='./edit.html'>修改</a>");
+                out.printf("                <a href='" + contextPath + "/dept/edit?deptno=" + deptno + "'>修改</a>");
                 out.printf("                <a href='" + contextPath + "/dept/detail?deptno=" + deptno + "'>详情</a>");
                 out.printf("            </td>");
                 out.printf("        </tr>");
@@ -100,7 +100,7 @@ public class DeptListServlet extends HttpServlet {
         }
         out.printf("    </table>");
         out.printf("    <hr>");
-        out.printf("    <a href='"+contextPath+"/add.html'> 新增部门</a>");
+        out.printf("    <a href='" + contextPath + "/add.html'> 新增部门</a>");
         out.printf("</body>");
         out.printf("");
         out.printf("</html>");

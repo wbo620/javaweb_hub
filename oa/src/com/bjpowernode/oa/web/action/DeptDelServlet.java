@@ -53,9 +53,15 @@ public class DeptDelServlet extends HttpServlet {
         }
 
         if (count == 1) {
-            request.getRequestDispatcher("/dept/list").forward(request, response);
+            //转发
+            //request.getRequestDispatcher("/dept/list").forward(request, response);
+            //重定向
+            response.sendRedirect(request.getContextPath()+"/dept/list");
         } else {
-            request.getRequestDispatcher("/error.html").forward(request, response);
+            // request.getRequestDispatcher("/error.html").forward(request, response);
+            response.sendRedirect("/error.html");
         }
+
+
     }
 }

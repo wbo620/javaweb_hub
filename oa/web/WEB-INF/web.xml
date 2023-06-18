@@ -3,40 +3,47 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
-<servlet>
-    <servlet-name>list</servlet-name>
-    <!--  通过地址找到对应的服务  -->
-   <servlet-class>com.bjpowernode.oa.web.action.DeptListServlet</servlet-class>
-</servlet>
+    <!--部门列表-->
+    <servlet>
+        <servlet-name>list</servlet-name>
+        <servlet-class>com.bjpowernode.oa.web.action.DeptListServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>list</servlet-name>
         <url-pattern>/dept/list</url-pattern>
     </servlet-mapping>
 
     <servlet>
-    <servlet-name>add</servlet-name>
-    <!--  通过地址找到对应的服务  -->
-   <servlet-class>com.bjpowernode.oa.web.action.DeptAddServlet</servlet-class>
-</servlet>
+        <servlet-name>edit</servlet-name>
+        <servlet-class>com.bjpowernode.oa.web.action.DeptEditServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>edit</servlet-name>
+        <url-pattern>/dept/edit</url-pattern>
+    </servlet-mapping>
+
+    <!--    添加部门-->
+    <servlet>
+        <servlet-name>add</servlet-name>
+        <servlet-class>com.bjpowernode.oa.web.action.DeptAddServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>add</servlet-name>
         <url-pattern>/dept/add</url-pattern>
     </servlet-mapping>
 
-
+    <!--部门详情-->
     <servlet>
         <servlet-name>detail</servlet-name>
-        <!--  通过地址找到对应的服务  -->
         <servlet-class>com.bjpowernode.oa.web.action.DeptDetailServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>detail</servlet-name>
         <url-pattern>/dept/detail</url-pattern>
     </servlet-mapping>
-<!--   删除部门-->
+    <!--   删除部门-->
     <servlet>
         <servlet-name>del</servlet-name>
-        <!--  通过地址找到对应的服务  -->
         <servlet-class>com.bjpowernode.oa.web.action.DeptDelServlet</servlet-class>
     </servlet>
     <servlet-mapping>
@@ -44,4 +51,13 @@
         <url-pattern>/dept/delete</url-pattern>
     </servlet-mapping>
 
+<!--    修改-->
+    <servlet>
+        <servlet-name>marge</servlet-name>
+        <servlet-class>com.bjpowernode.oa.web.action.DeptMargeServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>marge</servlet-name>
+        <url-pattern>/dept/marge</url-pattern>
+    </servlet-mapping>
 </web-app>

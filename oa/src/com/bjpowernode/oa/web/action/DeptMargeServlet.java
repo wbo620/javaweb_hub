@@ -8,51 +8,47 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class DeptAddServlet extends HttpServlet {
-
+public class DeptMargeServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //设置响应内容类型以及字符集,防止中文乱码
+
         response.setContentType("text/html;charset=UTF-8");
+        PrintWriter out = response.getWriter();
+        //获取到传进来的部门编号,
         String deptno = request.getParameter("deptno");
         String dname = request.getParameter("dname");
         String loc = request.getParameter("loc");
 
+
         Connection conn = null;
         PreparedStatement ps = null;
         int count = 0;
-
-
         try {
             conn = DBUtil.getDBConnection();
-            conn.setAutoCommit(false);
-
-            String sql = "insert into dept values(?,?,?)";
+            //查询语句
+            String sql = "update dept set dname=?,loc=? where deptno=?";
             ps = conn.prepareStatement(sql);
-            ps.setString(1, deptno);
-            ps.setString(2, dname);
-            ps.setString(3, loc);
+            //给sql查询语句的第一个?赋值
+            ps.setString(1, dname);
+            ps.setString(2, loc);
+            ps.setString(3, deptno);
 
             count = ps.executeUpdate();
-            conn.commit();
-
-        } catch (SQLException e) {
-            if (conn != null) {
-                try {
-                    conn.rollback();
-                } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
-                }
-            }
-            throw new RuntimeException(e);
-        }finally {
-            DBUtil.closeDB(conn,ps,null);
+            //抛异常,关流
+        } catch (
+                SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DBUtil.closeDB(conn, ps, null);
         }
+
 
         if (count == 1) {
             //转发
@@ -60,11 +56,9 @@ public class DeptAddServlet extends HttpServlet {
             //重定向
             response.sendRedirect(request.getContextPath()+"/dept/list");
         } else {
-            // request.getRequestDispatcher("/error.html").forward(request, response);
+           // request.getRequestDispatcher("/error.html").forward(request, response);
             response.sendRedirect("/error.html");
         }
 
     }
-
-
 }
