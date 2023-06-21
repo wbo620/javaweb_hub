@@ -1,4 +1,3 @@
-
 <%@ page import="java.util.List" %>
 <%@ page import="com.bjpowernode.oa.bean.Dept" %>
 
@@ -8,9 +7,17 @@
 <html lang='en'>
 
 <head>
-   <%-- <meta charset='UTF-8'>--%>
+    <%-- <meta charset='UTF-8'>--%>
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
     <title>列表</title>
+
+    <script type='text/javascript'>
+        function del(dno) {
+            if (window.confirm('亲，删了不可恢复哦！')) {
+                document.location.href = '<%=request.getContextPath()%>/dept/delete?deptno=' + dno
+            }
+        }
+    </script>
 </head>
 
 <body>
@@ -25,7 +32,7 @@
     <%
 
         int i = 0;
-        List<Dept> deptList =(List<Dept>) request.getAttribute("deptList");
+        List<Dept> deptList = (List<Dept>) request.getAttribute("deptList");
         for (Dept dept : deptList) {
             String deptno = dept.getDeptno();
             String dname = dept.getDname();
@@ -38,9 +45,9 @@
         <td><%=dname%>
         </td>
         <td>
-            <a href=''>删除</a>
-            <a href='<%=request.getContextPath()%>/dept/edit'>修改</a>
-            <a href='<%=request.getContextPath()%>/dept/detail'>详情</a>
+            <a href='javascript:void(0)' onclick='del(<%=deptno%>)'>删除</a>
+            <a href='<%=request.getContextPath()%>/dept/edit?deptno=<%=deptno%>'>修改</a>
+            <a href='<%=request.getContextPath()%>/dept/detail?deptno=<%=deptno%>'>详情</a>
         </td>
     </tr>
 

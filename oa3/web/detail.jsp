@@ -17,14 +17,11 @@
 <hr>
 
 <%
-
-
     List<Dept> deptList = (List<Dept>) request.getAttribute("deptList");
     for (Dept dept : deptList) {
         String deptno = dept.getDeptno();
         String dname = dept.getDname();
         String loc = dept.getLoc();
-
 %>
 部门编号:<%=deptno%> <br>
 部门名称:<%=dname%><br>

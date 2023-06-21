@@ -17,7 +17,6 @@
 <form action='<%=request.getContextPath()%>/dept/marge' method='post'>
     <%
 
-
         List<Dept> deptList =(List<Dept>) request.getAttribute("deptList");
         for (Dept dept : deptList) {
             String deptno = dept.getDeptno();

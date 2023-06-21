@@ -1,6 +1,5 @@
 package com.bjpowernode.oa.web.action;
 
-
 import com.bjpowernode.oa.utilis.DBUtil;
 import com.bjpowernode.oa.bean.Dept;
 import jakarta.servlet.ServletException;
@@ -36,7 +35,7 @@ public class DeptServlet extends HttpServlet {
         } else if ("/dept/list".equals(servletPath)) {
             doList(request, response);
         } else if ("/dept/detail".equals(servletPath)) {
-            deDetail(request, response);
+            doDetail(request, response);
         }
     }
 
@@ -123,18 +122,18 @@ public class DeptServlet extends HttpServlet {
             //转发
             //request.getRequestDispatcher("/dept/list").forward(request, response);
             //重定向
-            response.sendRedirect(request.getContextPath()+"/dept/list");
+            response.sendRedirect(request.getContextPath() + "/dept/list");
         } else {
             // request.getRequestDispatcher("/error.html").forward(request, response);
             response.sendRedirect("/error.html");
         }
     }
 
-    private void deDetail(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private void doDetail(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //设置响应内容类型以及字符集,防止中文乱码
         response.setContentType("text/html;charset=UTF-8");
 
-        List<Dept> depts=new ArrayList<Dept>();
+        List<Dept> depts = new ArrayList<Dept>();
 
         //获取到传进来的部门编号,
         String deptno = request.getParameter("deptno");
@@ -155,17 +154,19 @@ public class DeptServlet extends HttpServlet {
             //响应集
             rs = ps.executeQuery();
 
+            if (rs.next()) {
 
-            String dname = rs.getString("dname");
-            String loc = rs.getString("loc");
 
-            Dept dept = new Dept();
-            dept.setDeptno(deptno);
-            dept.setDname(dname);
-            dept.setLoc(loc);
+                String dname = rs.getString("dname");
+                String loc = rs.getString("loc");
 
-            depts.add(dept);
+                Dept dept = new Dept();
+                dept.setDeptno(deptno);
+                dept.setDname(dname);
+                dept.setLoc(loc);
 
+                depts.add(dept);
+            }
             //抛异常,关流
         } catch (
                 SQLException e) {
@@ -219,7 +220,7 @@ public class DeptServlet extends HttpServlet {
             //转发
             //request.getRequestDispatcher("/dept/list").forward(request, response);
             //重定向
-            response.sendRedirect("/list.jsp");
+            response.sendRedirect(request.getContextPath() + "/dept/list");
         } else {
             //request.getRequestDispatcher("/error.html").forward(request, response);
             response.sendRedirect("/error.html");
@@ -228,11 +229,8 @@ public class DeptServlet extends HttpServlet {
 
     private void doEdit(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        List<Dept> depts = new ArrayList<Dept>();
+        List<Dept> depts = new ArrayList<>();
         response.setCharacterEncoding("UTF-8");
-
-
-        String contextPath = request.getContextPath();
 
         String deptno = request.getParameter("deptno");
 
@@ -265,7 +263,6 @@ public class DeptServlet extends HttpServlet {
                 depts.add(dept);
 
             }
-
             //抛异常,关流
         } catch (SQLException e) {
             e.printStackTrace();
