@@ -12,11 +12,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>欢迎</title>
+  <title>登录界面</title>
 </head>
 
 <body>
-<a href="<%=request.getContextPath()%>/dept/list">查看部门列表</a>
+
+登录界面
+<form method="post" action="<%=request.getContextPath()%>/user/login">
+  用户名: <input type="text" name="username"/><br>
+  密码: <input type="password" name="password"/><br>
+
+  <input type="submit" value="登录">
+
+</form>
 </body>
 
 </html>

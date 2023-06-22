@@ -21,6 +21,11 @@
 </head>
 
 <body>
+<p>欢迎 <%=session.getAttribute("username")%></p>
+<p><a href="<%=request.getContextPath()%>/user/exit">安全退出</a> </p>
+
+<h1 align="center">部门列表</h1>
+<hr>
 <table border='1px' align='center' width='50%'>
     <tr>
         <th>序号</th>

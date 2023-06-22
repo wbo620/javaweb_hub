@@ -7,6 +7,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -24,19 +25,29 @@ public class DeptServlet extends HttpServlet {
     protected void service(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String servletPath = request.getServletPath();
-        if ("/dept/add".equals(servletPath)) {
-            doAdd(request, response);
-        } else if ("/dept/edit".equals(servletPath)) {
-            doEdit(request, response);
-        } else if ("/dept/delete".equals(servletPath)) {
-            doDel(request, response);
-        } else if ("/dept/marge".equals(servletPath)) {
-            doMarge(request, response);
-        } else if ("/dept/list".equals(servletPath)) {
-            doList(request, response);
-        } else if ("/dept/detail".equals(servletPath)) {
-            doDetail(request, response);
+
+        //只获取当前session对象,没有返回null
+        HttpSession session = request.getSession(false);
+        //如果session为空并且在session中的数据不为空,则表明是同一个会话
+        if (session != null&&session.getAttribute("username")!=null) {
+            if ("/dept/add".equals(servletPath)) {
+                doAdd(request, response);
+            } else if ("/dept/edit".equals(servletPath)) {
+                doEdit(request, response);
+            } else if ("/dept/delete".equals(servletPath)) {
+                doDel(request, response);
+            } else if ("/dept/marge".equals(servletPath)) {
+                doMarge(request, response);
+            } else if ("/dept/list".equals(servletPath)) {
+                doList(request, response);
+            } else if ("/dept/detail".equals(servletPath)) {
+                doDetail(request, response);
+            }
+        }else {
+            //未创建会话,就需要跳转到登录页面
+            response.sendRedirect(request.getContextPath());
         }
+
     }
 
     private void doAdd(HttpServletRequest request, HttpServletResponse response) throws IOException {
