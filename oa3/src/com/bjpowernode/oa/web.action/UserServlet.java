@@ -3,10 +3,7 @@ package com.bjpowernode.oa.web.action;
 import com.bjpowernode.oa.utilis.DBUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.*;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -40,7 +37,7 @@ public class UserServlet extends HttpServlet {
             //手动销毁session对象
             session.invalidate();
             //跳转到登录页面
-            response.sendRedirect(request.getContextPath());
+            response.sendRedirect(request.getContextPath()+"/index.jsp");
         }
     }
 
@@ -72,21 +69,42 @@ public class UserServlet extends HttpServlet {
                 success = true;
             }
 
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
             DBUtil.closeDB(conn, ps, rs);
         }
 
+
         //判断,登陆成功跳转到列表界面
-        //失败,跳转到失败提示界面
         if (success) {
             //登陆成功,创建session对象,并把当前用户名存入session中
             HttpSession session = request.getSession();
+            //绑定用户名到session中
             session.setAttribute("username", username);
+
+            //登陆成功,并勾选了十天内免登录
+            String f = request.getParameter("f");
+            if ("1".equals(f)) {
+                //创建cookie,保存选择十天内免登录的用户名和密码
+                Cookie cookie1 = new Cookie("username", username);
+                Cookie cookie2 = new Cookie("password", password);
+
+                //设置cookie的超时时间,设为10天
+                cookie1.setMaxAge(60 * 60 * 24 * 10);
+                cookie2.setMaxAge(60 * 60 * 24 * 10);
+                //设置cookie的Path (只要访问这个路径,就携带这两个cookie)
+                cookie1.setPath(request.getContextPath());
+                cookie2.setPath(request.getContextPath());
+                //响应cookie给浏览器
+                response.addCookie(cookie1);
+                response.addCookie(cookie2);
+            }
+
+            //跳转到列表界面
             response.sendRedirect(request.getContextPath() + "/dept/list");
         } else {
+            //失败,跳转到失败提示界面
             response.sendRedirect(request.getContextPath() + "/login.jsp");
         }
 

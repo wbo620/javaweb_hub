@@ -22,6 +22,9 @@
   用户名: <input type="text" name="username"/><br>
   密码: <input type="password" name="password"/><br>
 
+  <input type="checkbox" name="f" value="1">十天内免登录
+  <br>
+
   <input type="submit" value="登录">
 
 </form>
