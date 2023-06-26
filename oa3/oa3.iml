@@ -37,5 +37,6 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="jakarta.servlet.jsp.jstl-2.0.0 (2)" level="project" />
   </component>
 </module>

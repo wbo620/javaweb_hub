@@ -1,6 +1,5 @@
-<%@ page import="com.bjpowernode.oa.bean.Dept" %>
-<%@ page import="java.util.List" %>
 <%@page contentType="text/html;charset=UTF-8" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang='en'>
 
@@ -13,24 +12,14 @@
 <body>
 <h1>修改部门</h1>
 <hr>
-<%-- Dept dept = (Dept) request.getAttribute("dept");--%>
-<form action='<%=request.getContextPath()%>/dept/marge' method='post'>
-    <%
+<%--点击修改,执行${pageContext.request.contextPath}/dept/marge这个servlet--%>
+<form action="${pageContext.request.contextPath}/dept/marge" method='post'>
+部门编号<input type='text' name='deptno' value='${dept.deptno}' readonly><br>
+部门名称<input type='text' name='dname' value='${dept.dname}'><br>
+部门位置<input type='text' name='loc' value='${dept.loc}'><br>
 
-        List<Dept> deptList =(List<Dept>) request.getAttribute("deptList");
-        for (Dept dept : deptList) {
-            String deptno = dept.getDeptno();
-            String dname = dept.getDname();
-            String loc = dept.getLoc();
 
-    %>
-    部门编号<input type='text' name='deptno' value='<%=deptno %>' readonly><br>
-    部门名称<input type='text' name='dname' value='<%=dname %>'><br>
-    部门位置<input type='text' name='loc' value='<%=loc %>'><br>
-    <%
-        }
-    %>
-    <input type='submit' value='修改'>
+<input type='submit' value='修改'>
 
 </form>
 </body>

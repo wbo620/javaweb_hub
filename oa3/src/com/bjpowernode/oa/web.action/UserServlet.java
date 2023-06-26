@@ -36,8 +36,25 @@ public class UserServlet extends HttpServlet {
         if (session != null) {
             //手动销毁session对象
             session.invalidate();
+
+            //销毁cookie
+            Cookie[] cookies = request.getCookies();
+            if (cookies != null) {
+                for (Cookie cookie : cookies) {
+                    String name = cookie.getName();
+                    if ("username".equals(name)||"password".equals(name)) {
+                        //如果找到对应的cookie就销毁掉
+                        cookie.setMaxAge(0);
+                        //设置cookie的路径
+                        //删除cookie的时候要注意路径问题
+                        cookie.setPath(request.getContextPath());
+                        //响应cookie给浏览器,将之前的cookie给覆盖掉
+                        response.addCookie(cookie);
+                    }
+                }
+            }
             //跳转到登录页面
-            response.sendRedirect(request.getContextPath()+"/index.jsp");
+            response.sendRedirect(request.getContextPath());
         }
     }
 
@@ -105,7 +122,7 @@ public class UserServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/dept/list");
         } else {
             //失败,跳转到失败提示界面
-            response.sendRedirect(request.getContextPath() + "/login.jsp");
+            response.sendRedirect(request.getContextPath() + "/errorLogin.jsp");
         }
 
     }

@@ -1,13 +1,12 @@
 package com.bjpowernode.oa.web.action;
 
-import com.bjpowernode.oa.utilis.DBUtil;
 import com.bjpowernode.oa.bean.Dept;
+import com.bjpowernode.oa.utilis.DBUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -25,29 +24,19 @@ public class DeptServlet extends HttpServlet {
     protected void service(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String servletPath = request.getServletPath();
-
-        //只获取当前session对象,没有返回null
-        HttpSession session = request.getSession(false);
-        //如果session为空并且在session中的数据不为空,则表明是同一个会话
-        if (session != null&&session.getAttribute("username")!=null) {
-            if ("/dept/add".equals(servletPath)) {
-                doAdd(request, response);
-            } else if ("/dept/edit".equals(servletPath)) {
-                doEdit(request, response);
-            } else if ("/dept/delete".equals(servletPath)) {
-                doDel(request, response);
-            } else if ("/dept/marge".equals(servletPath)) {
-                doMarge(request, response);
-            } else if ("/dept/list".equals(servletPath)) {
-                doList(request, response);
-            } else if ("/dept/detail".equals(servletPath)) {
-                doDetail(request, response);
-            }
-        }else {
-            //未创建会话,就需要跳转到登录页面
-            response.sendRedirect(request.getContextPath());
+        if ("/dept/add".equals(servletPath)) {
+            doAdd(request, response);
+        } else if ("/dept/edit".equals(servletPath)) {
+            doEdit(request, response);
+        } else if ("/dept/delete".equals(servletPath)) {
+            doDel(request, response);
+        } else if ("/dept/marge".equals(servletPath)) {
+            doMarge(request, response);
+        } else if ("/dept/list".equals(servletPath)) {
+            doList(request, response);
+        } else if ("/dept/detail".equals(servletPath)) {
+            doDetail(request, response);
         }
-
     }
 
     private void doAdd(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -144,8 +133,8 @@ public class DeptServlet extends HttpServlet {
         //设置响应内容类型以及字符集,防止中文乱码
         response.setContentType("text/html;charset=UTF-8");
 
-        List<Dept> depts = new ArrayList<Dept>();
 
+        Dept dept = new Dept();
         //获取到传进来的部门编号,
         String deptno = request.getParameter("deptno");
 
@@ -171,12 +160,12 @@ public class DeptServlet extends HttpServlet {
                 String dname = rs.getString("dname");
                 String loc = rs.getString("loc");
 
-                Dept dept = new Dept();
+
                 dept.setDeptno(deptno);
                 dept.setDname(dname);
                 dept.setLoc(loc);
 
-                depts.add(dept);
+
             }
             //抛异常,关流
         } catch (
@@ -185,7 +174,7 @@ public class DeptServlet extends HttpServlet {
         } finally {
             DBUtil.closeDB(conn, ps, rs);
         }
-        request.setAttribute("deptList", depts);
+        request.setAttribute("dept", dept);
         request.getRequestDispatcher("/detail.jsp").forward(request, response);
 
     }
@@ -240,7 +229,8 @@ public class DeptServlet extends HttpServlet {
 
     private void doEdit(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        List<Dept> depts = new ArrayList<>();
+
+        Dept dept = new Dept();
         response.setCharacterEncoding("UTF-8");
 
         String deptno = request.getParameter("deptno");
@@ -248,7 +238,7 @@ public class DeptServlet extends HttpServlet {
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-        int count = 0;
+
 
         try {
             conn = DBUtil.getDBConnection();
@@ -266,13 +256,9 @@ public class DeptServlet extends HttpServlet {
                 String dname = rs.getString("dname");
                 String loc = rs.getString("loc");
 
-                Dept dept = new Dept();
                 dept.setDeptno(deptno);
                 dept.setDname(dname);
                 dept.setLoc(loc);
-
-                depts.add(dept);
-
             }
             //抛异常,关流
         } catch (SQLException e) {
@@ -280,9 +266,8 @@ public class DeptServlet extends HttpServlet {
         } finally {
             DBUtil.closeDB(conn, ps, rs);
         }
-
         //将集合装入
-        request.setAttribute("deptList", depts);
+        request.setAttribute("dept", dept);
         ////用转发机制,保证在同一个servlet域中
         request.getRequestDispatcher("/edit.jsp").forward(request, response);
     }
