@@ -21,7 +21,9 @@
 </head>
 
 <body>
-<p>欢迎 ${pageContext.session.getAttribute("username")}</p>
+<h3>在线人数:${onlinecount}</h3>
+
+<p>欢迎</p>
 <p><a href="user/exit">安全退出</a></p>
 
 <h1 align="center">部门列表</h1>

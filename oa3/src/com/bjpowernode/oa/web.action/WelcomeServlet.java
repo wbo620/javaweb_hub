@@ -1,5 +1,6 @@
 package com.bjpowernode.oa.web.action;
 
+import com.bjpowernode.oa.bean.User;
 import com.bjpowernode.oa.utilis.DBUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -63,7 +64,10 @@ public class WelcomeServlet extends HttpServlet {
             if (success) {
                 //获取session
                 HttpSession session = request.getSession();
-                session.setAttribute("username", username);
+                //session.setAttribute("username", username);
+
+                User user = new User();
+                session.setAttribute("user", user);
                 //成功,跳转到列表页面
                 response.sendRedirect(request.getContextPath() + "/dept/list");
             } else {

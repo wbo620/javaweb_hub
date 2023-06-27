@@ -1,5 +1,6 @@
 package com.bjpowernode.oa.web.action;
 
+import com.bjpowernode.oa.bean.User;
 import com.bjpowernode.oa.utilis.DBUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -34,6 +35,10 @@ public class UserServlet extends HttpServlet {
         HttpSession session = request.getSession(false);
 
         if (session != null) {
+
+            //从session中删除user对象
+            session.removeAttribute("user");
+
             //手动销毁session对象
             session.invalidate();
 
@@ -98,7 +103,10 @@ public class UserServlet extends HttpServlet {
             //登陆成功,创建session对象,并把当前用户名存入session中
             HttpSession session = request.getSession();
             //绑定用户名到session中
-            session.setAttribute("username", username);
+            //session.setAttribute("username", username);
+
+            User user = new User();
+            session.setAttribute("user", user);
 
             //登陆成功,并勾选了十天内免登录
             String f = request.getParameter("f");

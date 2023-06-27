@@ -34,11 +34,17 @@ public class LoginCheckFilter implements Filter {
         HttpSession session = request.getSession(false);
 
         //如果session为空并且在session中的数据不为空,则表明是同一个会话
+        //if (
+        //        "/index.jsp".equals(servletPath) || "/welcome".equals(servletPath) ||
+        //                "/user/login".equals(servletPath) || "/user/exit".equals(servletPath) ||
+        //                "/errorLogin.jsp".equals(servletPath) || "/error.jsp".equals(servletPath) ||
+        //                ((session != null) && (session.getAttribute("username") != null))) {
+        //    filterChain.doFilter(request, response);
         if (
                 "/index.jsp".equals(servletPath) || "/welcome".equals(servletPath) ||
                         "/user/login".equals(servletPath) || "/user/exit".equals(servletPath) ||
                         "/errorLogin.jsp".equals(servletPath) || "/error.jsp".equals(servletPath) ||
-                        ((session != null) && (session.getAttribute("username") != null))) {
+                        ((session != null) && (session.getAttribute("user") != null))) {
             filterChain.doFilter(request, response);
 
         } else {
